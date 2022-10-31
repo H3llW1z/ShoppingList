@@ -1,21 +1,12 @@
 package com.panassevich.shoppinglist.presentation
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.panassevich.shoppinglist.R
 import com.panassevich.shoppinglist.domain.ShopItem
 
-class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
-
-
-    var shopList = listOf<ShopItem>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCallback()) {
 
     var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
 
@@ -33,7 +24,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     }
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
-        val shopItem = shopList[position]
+        val shopItem = getItem(position)
         holder.tvName.text = shopItem.name
         holder.tvCount.text = shopItem.count.toString()
         holder.view.setOnLongClickListener {
@@ -45,21 +36,11 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         }
     }
 
-
-    override fun getItemCount(): Int {
-        return shopList.size
-    }
-
     override fun getItemViewType(position: Int): Int {
-        return when (shopList[position].enabled) {
+        return when (getItem(position).enabled) {
             true -> ACTIVE_LIST_POSITION
             false -> NON_ACTIVE_LIST_POSITION
         }
-    }
-
-    class ShopItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val tvName: TextView = view.findViewById(R.id.tv_name)
-        val tvCount: TextView = view.findViewById(R.id.tv_count)
     }
 
     companion object {
