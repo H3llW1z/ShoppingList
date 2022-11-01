@@ -1,11 +1,12 @@
 package com.panassevich.shoppinglist.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.panassevich.shoppinglist.R
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,11 @@ class MainActivity : AppCompatActivity() {
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
 
+        }
+        val buttonAddItem = findViewById<FloatingActionButton>(R.id.fabAddShopItem)
+        buttonAddItem.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
         }
     }
 
@@ -37,8 +43,8 @@ class MainActivity : AppCompatActivity() {
                 ShopListAdapter.MAX_POOL_SIZE
             )
         }
-        setupLongClickListener()
         setupClickListener()
+        setupLongClickListener()
         setupSwipeListener(rvShopList)
     }
 
@@ -62,15 +68,17 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(rvShopList)
     }
 
-    private fun setupClickListener() {
+    private fun setupLongClickListener() {
         shopListAdapter.onShopItemLongClickListener = {
             viewModel.changeEnableState(it)
         }
     }
 
-    private fun setupLongClickListener() {
+    private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
             Log.d("SHORT_CLICK_TEST", it.toString())
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
         }
     }
 }
