@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.panassevich.shoppinglist.R
-import com.panassevich.shoppinglist.databinding.ActivityShopItemBinding
 import com.panassevich.shoppinglist.domain.ShopItem
 
 class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListener {

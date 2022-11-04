@@ -3,5 +3,6 @@ package com.panassevich.shoppinglist.presentation
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-class ShopItemViewHolder(val binding: ViewDataBinding
+class ShopItemViewHolder(
+    val binding: ViewDataBinding
 ) : RecyclerView.ViewHolder(binding.root)
